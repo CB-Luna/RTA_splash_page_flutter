@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:meraki_splash_page/providers/providers.dart';
 import 'package:meraki_splash_page/theme/theme.dart';
-import 'package:provider/provider.dart';
 
 class LoginButton extends StatefulWidget {
   const LoginButton({
@@ -59,8 +63,21 @@ class _LoginButtonState extends State<LoginButton> {
             return;
           }
           await provider.saveEmail();
-          if (!mounted) return;
-          context.pushReplacement('/thanks');
+          if (provider.baseGrantUrl == null) {
+            print('BaseGranUrl is null');
+            return;
+          }
+          final Uri url = Uri.parse(
+              '${provider.baseGrantUrl}?continue_url=${provider.userContinueUrl}');
+          print(url);
+          try {
+            await launchUrl(url, webOnlyWindowName: "_self");
+          } catch (e) {
+            log('Error on redirect - $e');
+          }
+
+          // if (!mounted) return;
+          // context.pushReplacement('/thanks');
         },
         child: Container(
           height: 41,

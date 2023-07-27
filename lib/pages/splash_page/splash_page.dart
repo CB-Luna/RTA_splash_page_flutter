@@ -9,7 +9,9 @@ import 'package:meraki_splash_page/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  const SplashPage({
+    super.key,
+  });
 
   @override
   State<SplashPage> createState() => _SplashPageState();
