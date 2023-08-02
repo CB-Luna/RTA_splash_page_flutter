@@ -34,7 +34,7 @@ jobs:
         channel: 'stable'
     - run: flutter --disable-telemetry
     - run: flutter pub get
-    - run: flutter build web --release --base-href /RTA_splash_page_flutter/
+    - run: flutter build web --release --base-href /RTA_splash_page_flutter/ --web-renderer html
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
