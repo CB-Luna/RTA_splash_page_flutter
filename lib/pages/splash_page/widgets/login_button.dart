@@ -1,22 +1,22 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:meraki_splash_page/providers/providers.dart';
-import 'package:meraki_splash_page/theme/theme.dart';
 
 class LoginButton extends StatefulWidget {
   const LoginButton({
     Key? key,
-    required this.buttonColor,
+    required this.primaryColor,
+    required this.secondaryColor,
     required this.formKey,
   }) : super(key: key);
 
-  final Color buttonColor;
+  final Color primaryColor;
+  final Color secondaryColor;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -24,23 +24,24 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
-  late Color buttonColor;
+  late Color primaryColor;
+  late Color secondaryColor;
+
+  void setColors(bool isPrimary) {
+    if (isPrimary) {
+      primaryColor = widget.primaryColor;
+      secondaryColor = widget.secondaryColor;
+    } else {
+      primaryColor = widget.secondaryColor;
+      secondaryColor = widget.primaryColor;
+    }
+  }
 
   @override
   void initState() {
-    buttonColor = widget.buttonColor;
+    primaryColor = widget.primaryColor;
+    secondaryColor = widget.secondaryColor;
     super.initState();
-  }
-
-  Color lighten(Color c, [int percent = 10]) {
-    assert(1 <= percent && percent <= 100);
-    var p = percent / 100;
-    return Color.fromARGB(
-      c.alpha,
-      c.red + ((255 - c.red) * p).round(),
-      c.green + ((255 - c.green) * p).round(),
-      c.blue + ((255 - c.blue) * p).round(),
-    );
   }
 
   @override
@@ -48,15 +49,9 @@ class _LoginButtonState extends State<LoginButton> {
     final SplashPageProvider provider =
         Provider.of<SplashPageProvider>(context);
     return MouseRegion(
-      onEnter: (event) {
-        buttonColor = lighten(buttonColor, 10);
-        setState(() {});
-      },
-      onExit: (event) {
-        buttonColor = AppTheme.of(context).primaryColor;
-        setState(() {});
-      },
       cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => setColors(false)),
+      onExit: (_) => setState(() => setColors(true)),
       child: GestureDetector(
         onTap: () async {
           if (!widget.formKey.currentState!.validate()) {
@@ -64,34 +59,38 @@ class _LoginButtonState extends State<LoginButton> {
           }
           await provider.saveEmail();
           if (provider.baseGrantUrl == null) {
-            print('BaseGranUrl is null');
             return;
           }
           final Uri url = Uri.parse(
               '${provider.baseGrantUrl}?continue_url=${provider.userContinueUrl}');
-          print(url);
           try {
             await launchUrl(url, webOnlyWindowName: "_self");
           } catch (e) {
             log('Error on redirect - $e');
           }
-
-          // if (!mounted) return;
-          // context.pushReplacement('/thanks');
         },
-        child: Container(
-          height: 41,
-          width: 150,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: 60,
+          width: 175,
           decoration: BoxDecoration(
-            color: buttonColor,
-            borderRadius: BorderRadius.circular(7.75),
+            color: secondaryColor,
+            border: Border.all(color: primaryColor),
+            boxShadow: [
+              BoxShadow(
+                color: primaryColor,
+                offset: const Offset(0, 2),
+                blurRadius: 6,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(30),
           ),
           child: Center(
             child: Text(
               'LOG IN TO WIFI',
               style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 16,
+                color: primaryColor,
+                fontSize: 20,
                 fontWeight: FontWeight.w300,
               ),
             ),

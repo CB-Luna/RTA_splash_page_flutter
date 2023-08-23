@@ -6,14 +6,14 @@ class LoginInputField extends StatefulWidget {
   const LoginInputField({
     Key? key,
     required this.label,
-    this.isPasswordField = false,
+    this.hint,
     required this.controller,
     this.validator,
     this.unfocusedTextColor = Colors.grey,
   }) : super(key: key);
 
   final String label;
-  final bool isPasswordField;
+  final String? hint;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final Color unfocusedTextColor;
@@ -23,8 +23,6 @@ class LoginInputField extends StatefulWidget {
 }
 
 class _LoginInputFieldState extends State<LoginInputField> {
-  bool passwordVisibility = false;
-
   late Color currentTextColor;
 
   @override
@@ -38,8 +36,8 @@ class _LoginInputFieldState extends State<LoginInputField> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
-        width: 445,
-        height: 65,
+        width: 600,
+        height: 80,
         child: FocusScope(
           onFocusChange: (value) {
             if (value) {
@@ -48,12 +46,10 @@ class _LoginInputFieldState extends State<LoginInputField> {
               currentTextColor = Colors.grey;
             }
             setState(() {});
-            // print('${widget.label} field has $value focus');
           },
           child: TextFormField(
             key: widget.key,
             controller: widget.controller,
-            obscureText: widget.isPasswordField ? !passwordVisibility : false,
             validator: widget.validator,
             decoration: InputDecoration(
               isCollapsed: true,
@@ -61,8 +57,8 @@ class _LoginInputFieldState extends State<LoginInputField> {
               contentPadding: const EdgeInsets.only(
                 left: 10,
                 right: 10,
-                top: 15,
-                bottom: 15,
+                top: 22,
+                bottom: 22,
               ),
               labelText: widget.label,
               labelStyle: GoogleFonts.poppins(
@@ -70,7 +66,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
                 fontWeight: FontWeight.normal,
               ),
               alignLabelWithHint: true,
-              hintText: widget.label,
+              hintText: widget.hint,
               hintStyle: GoogleFonts.poppins(
                 color: currentTextColor,
                 fontWeight: FontWeight.normal,
@@ -78,56 +74,36 @@ class _LoginInputFieldState extends State<LoginInputField> {
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppTheme.of(context).primaryColor,
-                  width: 0.4,
+                  width: 2,
                 ),
-                borderRadius: BorderRadius.circular(4.88),
+                borderRadius: BorderRadius.circular(20),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppTheme.of(context).primaryColor,
-                  width: 0.4,
+                  width: 2,
                 ),
-                borderRadius: BorderRadius.circular(4.88),
+                borderRadius: BorderRadius.circular(20),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                   color: Colors.red,
-                  width: 0.4,
+                  width: 2,
                 ),
-                borderRadius: BorderRadius.circular(4.88),
+                borderRadius: BorderRadius.circular(20),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                   color: Colors.red,
-                  width: 0.4,
+                  width: 2,
                 ),
-                borderRadius: BorderRadius.circular(4.88),
+                borderRadius: BorderRadius.circular(20),
               ),
               focusColor: AppTheme.of(context).primaryColor,
-              prefixIcon: const Icon(Icons.email_outlined),
-              prefixIconColor: MaterialStateColor.resolveWith((states) =>
-                  states.contains(MaterialState.focused)
-                      ? AppTheme.of(context).primaryColor
-                      : Colors.grey),
-              suffixIcon: widget.isPasswordField
-                  ? InkWell(
-                      onTap: () => setState(
-                        () => passwordVisibility = !passwordVisibility,
-                      ),
-                      focusNode: FocusNode(skipTraversal: true),
-                      child: Icon(
-                        passwordVisibility
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        color: Colors.grey,
-                        size: 22,
-                      ),
-                    )
-                  : null,
             ),
             style: GoogleFonts.poppins(
               color: AppTheme.of(context).primaryColor,
-              fontSize: 15.6,
+              fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
           ),

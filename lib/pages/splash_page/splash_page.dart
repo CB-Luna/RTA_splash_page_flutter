@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:meraki_splash_page/pages/splash_page/widgets/login_button.dart';
 
 import 'package:meraki_splash_page/pages/splash_page/widgets/login_input_field.dart';
@@ -23,71 +22,124 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     final SplashPageProvider provider =
         Provider.of<SplashPageProvider>(context);
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: AppTheme.of(context).primaryColor,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            width: 360,
-            height: 300,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                    offset: Offset(0, 5),
-                    blurRadius: 15,
-                    color: Color(0xFF000080),
-                  ),
-                ]),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  const Image(
-                    width: 200,
-                    height: 61.9,
-                    image: AssetImage('assets/images/logo.png'),
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.contain,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Please enter your email to connect to the Internet',
-                    style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/FondoWeb.png'),
+              filterQuality: FilterQuality.high,
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: -10,
+                left: size.width / 2 - 190,
+                child: const Image(
+                  image: AssetImage('assets/images/Zane.png'),
+                  height: 500,
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high,
+                ),
+              ),
+              const Positioned(
+                bottom: 20,
+                right: 20,
+                child: Image(
+                  image: AssetImage('assets/images/Nascar75.png'),
+                  height: 275,
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high,
+                ),
+              ),
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 55, top: 150),
+                  padding: const EdgeInsets.all(20),
+                  width: 750,
+                  height: 500,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(0, 5),
+                          blurRadius: 15,
+                          color: Color(0xFF000080),
+                        ),
+                      ]),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        const Image(
+                          width: 400,
+                          height: 124,
+                          image: AssetImage('assets/images/logo.png'),
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(height: 80),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.email_outlined,
+                              color: AppTheme.of(context).primaryColor,
+                              size: 60,
+                            ),
+                            const SizedBox(width: 10),
+                            LoginInputField(
+                              key: const Key('email'),
+                              label: 'Please enter your email address',
+                              hint: 'Email',
+                              controller: provider.emailController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'The email is required';
+                                } else if (!EmailValidator.validate(value)) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 50),
+                        LoginButton(
+                          primaryColor: const Color(0xFF00C0A3),
+                          secondaryColor: Colors.white,
+                          formKey: formKey,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  LoginInputField(
-                    key: const Key('email'),
-                    label: 'Email',
-                    controller: provider.emailController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'The email is required';
-                      } else if (!EmailValidator.validate(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                  ),
-                  LoginButton(
-                    buttonColor: AppTheme.of(context).primaryColor,
-                    formKey: formKey,
-                  ),
-                ],
+                ),
               ),
-            ),
+              const Positioned(
+                left: 45,
+                bottom: 0,
+                child: Image(
+                  image: AssetImage('assets/images/Camioneta.png'),
+                  height: 375,
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high,
+                ),
+              ),
+            ],
           ),
         ),
       ),

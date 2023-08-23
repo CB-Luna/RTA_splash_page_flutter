@@ -13,7 +13,6 @@ class SplashPageProvider extends ChangeNotifier {
   String? clientMac;
 
   void initParameters(Map<String, String> parameters) {
-    print(parameters);
     baseGrantUrl = parameters['base_grant_url'];
     userContinueUrl = parameters['user_continue_url'];
     nodeMac = parameters['node_mac'];
@@ -23,16 +22,14 @@ class SplashPageProvider extends ChangeNotifier {
 
   Future<void> saveEmail() async {
     try {
-      final res = await supabase.from('email').insert({
+      await supabase.from('email').insert({
         'email': emailController.text,
         'client_ip': clientIp,
         'client_mac': clientMac,
         'node_mac': nodeMac,
       });
-      print('Respuesta - $res');
     } catch (e) {
       log('Error in saveEmail() - $e');
-      print('Error en saveEmail() - $e');
     }
   }
 }
