@@ -33,10 +33,12 @@ class _LoginInputFieldState extends State<LoginInputField> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
-        width: 600,
+        width: size.width > 1500 ? 600 : 400,
         height: 80,
         child: FocusScope(
           onFocusChange: (value) {
