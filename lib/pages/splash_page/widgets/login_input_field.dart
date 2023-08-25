@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meraki_splash_page/helpers/constants.dart';
 import 'package:meraki_splash_page/theme/theme.dart';
 
 class LoginInputField extends StatefulWidget {
@@ -35,11 +36,21 @@ class _LoginInputFieldState extends State<LoginInputField> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    double widgetWidth = 600;
+
+    if (size.width > 1500) {
+      widgetWidth = 600;
+    } else if (size.width > 700) {
+      widgetWidth = 400;
+    } else {
+      widgetWidth = 240;
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: SizedBox(
-        width: size.width > 1500 ? 600 : 400,
-        height: 80,
+        width: widgetWidth,
+        height: size.width > mobileSize ? 80 : 30,
         child: FocusScope(
           onFocusChange: (value) {
             if (value) {
@@ -56,11 +67,11 @@ class _LoginInputFieldState extends State<LoginInputField> {
             decoration: InputDecoration(
               isCollapsed: true,
               isDense: true,
-              contentPadding: const EdgeInsets.only(
+              contentPadding: EdgeInsets.only(
                 left: 10,
                 right: 10,
-                top: 22,
-                bottom: 22,
+                top: size.width > mobileSize ? 22 : 10,
+                bottom: size.width > mobileSize ? 22 : 10,
               ),
               labelText: widget.label,
               labelStyle: GoogleFonts.poppins(
@@ -76,28 +87,28 @@ class _LoginInputFieldState extends State<LoginInputField> {
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppTheme.of(context).primaryColor,
-                  width: 2,
+                  width: size.width > mobileSize ? 2 : 1,
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: AppTheme.of(context).primaryColor,
-                  width: 2,
+                  width: size.width > mobileSize ? 2 : 1,
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
+                borderSide: BorderSide(
                   color: Colors.red,
-                  width: 2,
+                  width: size.width > mobileSize ? 2 : 1,
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
+                borderSide: BorderSide(
                   color: Colors.red,
-                  width: 2,
+                  width: size.width > mobileSize ? 2 : 1,
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -105,7 +116,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
             ),
             style: GoogleFonts.poppins(
               color: AppTheme.of(context).primaryColor,
-              fontSize: 20,
+              fontSize: size.width > mobileSize ? 20 : 13,
               fontWeight: FontWeight.w400,
             ),
           ),

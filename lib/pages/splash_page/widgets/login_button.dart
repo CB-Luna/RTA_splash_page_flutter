@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meraki_splash_page/helpers/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,6 +47,8 @@ class _LoginButtonState extends State<LoginButton> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     final SplashPageProvider provider =
         Provider.of<SplashPageProvider>(context);
     return MouseRegion(
@@ -71,8 +74,8 @@ class _LoginButtonState extends State<LoginButton> {
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          height: 60,
-          width: 175,
+          height: size.width > mobileSize ? 60 : 40,
+          width: size.width > mobileSize ? 175 : 150,
           decoration: BoxDecoration(
             color: secondaryColor,
             border: Border.all(color: primaryColor),
@@ -90,7 +93,7 @@ class _LoginButtonState extends State<LoginButton> {
               'LOG IN TO WIFI',
               style: GoogleFonts.poppins(
                 color: primaryColor,
-                fontSize: 20,
+                fontSize: size.width > mobileSize ? 20 : 15,
                 fontWeight: FontWeight.w300,
               ),
             ),
