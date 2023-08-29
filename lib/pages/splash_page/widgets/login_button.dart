@@ -75,7 +75,7 @@ class _LoginButtonState extends State<LoginButton> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           height: size.width > mobileSize ? 60 : 40,
-          width: size.width > mobileSize ? 175 : 150,
+          width: size.width > mobileSize ? 175 : 125,
           decoration: BoxDecoration(
             color: secondaryColor,
             border: Border.all(color: primaryColor),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:meraki_splash_page/helpers/constants.dart';
 import 'package:meraki_splash_page/pages/splash_page/widgets/email_form_widget.dart';
-import 'package:meraki_splash_page/providers/providers.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -118,9 +116,6 @@ class _SplashPageMobileState extends State<SplashPageMobile> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final SplashPageProvider provider =
-        Provider.of<SplashPageProvider>(context);
-
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(
@@ -154,7 +149,7 @@ class _SplashPageMobileState extends State<SplashPageMobile> {
           ),
           const Center(child: EmailFormWidget()),
           const Positioned(
-            left: 10,
+            left: 20,
             bottom: 100,
             child: Image(
               image: AssetImage('assets/images/Camioneta.png'),

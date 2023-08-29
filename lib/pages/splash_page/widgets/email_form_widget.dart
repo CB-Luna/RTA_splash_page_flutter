@@ -64,53 +64,67 @@ class _EmailFormWidgetDesktopState extends State<EmailFormWidgetDesktop> {
               color: Color(0xFF000080),
             ),
           ]),
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            const Image(
-              width: 400,
-              height: 124,
+      child: Stack(
+        children: [
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                const Image(
+                  width: 570,
+                  height: 150,
+                  image: AssetImage('assets/images/guestwifi_logo.png'),
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.email_outlined,
+                      color: AppTheme.of(context).primaryColor,
+                      size: 60,
+                    ),
+                    const SizedBox(width: 10),
+                    LoginInputField(
+                      key: const Key('email'),
+                      label: 'Connect with Email',
+                      hint: 'Email',
+                      controller: provider.emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'The email is required';
+                        } else if (!EmailValidator.validate(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50),
+                LoginButton(
+                  primaryColor: const Color(0xFF00C0A3),
+                  secondaryColor: Colors.white,
+                  formKey: formKey,
+                ),
+              ],
+            ),
+          ),
+          const Positioned(
+            bottom: 10,
+            right: 10,
+            child: Image(
+              width: 150,
               image: AssetImage('assets/images/logo.png'),
               filterQuality: FilterQuality.high,
               fit: BoxFit.contain,
             ),
-            const SizedBox(height: 80),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.email_outlined,
-                  color: AppTheme.of(context).primaryColor,
-                  size: 60,
-                ),
-                const SizedBox(width: 10),
-                LoginInputField(
-                  key: const Key('email'),
-                  label: 'Please enter your email address',
-                  hint: 'Email',
-                  controller: provider.emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'The email is required';
-                    } else if (!EmailValidator.validate(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 50),
-            LoginButton(
-              primaryColor: const Color(0xFF00C0A3),
-              secondaryColor: Colors.white,
-              formKey: formKey,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -146,53 +160,67 @@ class _EmailFormWidgetMobileState extends State<EmailFormWidgetMobile> {
               color: Color(0xFF000080),
             ),
           ]),
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            const Image(
-              width: 200,
-              height: 62,
+      child: Stack(
+        children: [
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                const Image(
+                  width: 200,
+                  height: 62,
+                  image: AssetImage('assets/images/guestwifi_logo.png'),
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.email_outlined,
+                      color: AppTheme.of(context).primaryColor,
+                      size: 40,
+                    ),
+                    const SizedBox(width: 5),
+                    LoginInputField(
+                      key: const Key('email'),
+                      label: 'Please enter your email address',
+                      hint: 'Email',
+                      controller: provider.emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'The email is required';
+                        } else if (!EmailValidator.validate(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                LoginButton(
+                  primaryColor: const Color(0xFF00C0A3),
+                  secondaryColor: Colors.white,
+                  formKey: formKey,
+                ),
+              ],
+            ),
+          ),
+          const Positioned(
+            bottom: 0,
+            left: 10,
+            child: Image(
+              width: 50,
               image: AssetImage('assets/images/logo.png'),
               filterQuality: FilterQuality.high,
               fit: BoxFit.contain,
             ),
-            const SizedBox(height: 15),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.email_outlined,
-                  color: AppTheme.of(context).primaryColor,
-                  size: 40,
-                ),
-                const SizedBox(width: 5),
-                LoginInputField(
-                  key: const Key('email'),
-                  label: 'Please enter your email address',
-                  hint: 'Email',
-                  controller: provider.emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'The email is required';
-                    } else if (!EmailValidator.validate(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            LoginButton(
-              primaryColor: const Color(0xFF00C0A3),
-              secondaryColor: Colors.white,
-              formKey: formKey,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
